@@ -23,8 +23,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # Adjust if you have a requirements file
 
-    - name: Run db script
-      run: python db.py
-
     - name: Run unit tests
-      run: python -m unittest discover
+      run: python -m unittest discover -s tests  # Explicitly specify the tests directory
