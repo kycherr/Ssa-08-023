@@ -30,7 +30,7 @@ jobs:
       - name: Echo message before running db script
         run: echo "Run the script for create/update products.db"
 
-      # Step 5: Run db script
+      # Step 5: Run db script 
       - name: Run db script
         run: python db.py
 
