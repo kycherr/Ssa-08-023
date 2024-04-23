@@ -1,33 +1,30 @@
-name: Build and Test
+name: Python CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
 
 jobs:
-  build-and-test:
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: Set up Python 3.x
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements.txt  # Adjust if you have a requirements file
 
-    - name: Build Docker image
-      run: |
-        docker build -t flask-api.
+    - name: Run db script
+      run: python db.py
 
-    - name: Run Docker container
-      run: |
-        docker run -d -p 5000:5000 flask-api
-
-    - name: Test Docker container
-      run: |
-        curl http://localhost:5000/products
+    - name: Run unit tests
+      run: python -m unittest discover
