@@ -1,36 +1,37 @@
-name: Flask Python API Workflow
+name: Build and Test
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  build:
-
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x' # Specify your desired Python version
+        python-version: 3.8
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Initialize Database
-      run: |
-        python db.py --add_default_data
-
-    - name: Run unit tests
+    - name: Run tests
       run: |
         python -m unittest discover tests
+
+    - name: Build Docker image
+      run: |
+        docker build -t flask-api.
+
+    - name: Run Docker container
+      run: |
+        docker run -d -p 5000:5000 flask-api
+
+    - name: Test Docker container
+      run: |
+        curl http://localhost:5000/products
