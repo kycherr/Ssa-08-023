@@ -1,7 +1,7 @@
 from peewee import *
 import argparse
 
-# Define the database and the model
+# Some new commnts
 db = SqliteDatabase('products.db')
 
 
