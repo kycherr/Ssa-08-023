@@ -7,27 +7,33 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      # Step 2: Set up Python
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Adjust if you have a requirements file
-    
-    - name: Echo message
-      run: echo "Run the script for create/update products.db"
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Adjust if you have a requirements file
 
-    - name:  Run db scipt
-      run:  python db.py
+      # Step 4: Echo message before running db script
+      - name: Echo message before running db script
+        run: echo "Run the script for create/update products.db"
 
-    - name: Run unit tests
-      run: python -m unittest discover -s tests
+      # Step 5: Run db script
+      - name: Run db script
+        run: python db.py
+
+      # Step 6: Run unit tests
+      - name: Run unit tests
+        run: python -m unittest discover -s tests
